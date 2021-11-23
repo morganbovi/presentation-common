@@ -12,7 +12,7 @@ interface UiEventConsumer<UiEventType : UiEvent> {
         lifecycleOwner: LifecycleOwner,
         uiEventProducer: UiEventProducer<UiEventType>
     ) {
-        uiEventProducer.uiEventSingleLiveEvent.observe(lifecycleOwner, Observer {
+        uiEventProducer.uiEventFlow.observe(lifecycleOwner, Observer {
 //            logStateBreadcrumb(it)
             if (BuildConfig.DEBUG) {
                 Timber.d(it.toString())

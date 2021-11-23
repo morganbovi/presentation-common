@@ -1,9 +1,9 @@
 package com.apkrocket.presentation_common.uievent
 
-import com.apkrocket.domain.SingleLiveEvent
+import kotlinx.coroutines.flow.Flow
 
 
 interface UiEventProducer<UiEvent> {
-    val uiEventSingleLiveEvent: SingleLiveEvent<UiEvent>
+    val uiEventFlow: Flow<UiEvent>
     fun postUiEvent(uiEvent: UiEvent)
 }

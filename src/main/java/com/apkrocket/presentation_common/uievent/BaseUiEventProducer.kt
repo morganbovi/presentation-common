@@ -2,17 +2,19 @@ package com.apkrocket.presentation_common.uievent
 
 import android.annotation.SuppressLint
 import androidx.arch.core.executor.ArchTaskExecutor
-import com.apkrocket.domain.SingleLiveEvent
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableSharedFlow
 
 
 class BaseUiEventProducer<U : UiEvent> : UiEventProducer<U> {
 
-    override val uiEventSingleLiveEvent: SingleLiveEvent<U> = SingleLiveEvent()
+    private val _uiEventFlow = MutableSharedFlow<U>()
+    override val uiEventFlow: Flow<U> = _uiEventFlow
 
     @SuppressLint("RestrictedApi")
     override fun postUiEvent(uiEvent: U) {
         ArchTaskExecutor.getMainThreadExecutor().execute {
-            uiEventSingleLiveEvent.value = uiEvent
+            _uiEventFlow.tryEmit(uiEvent)
         }
     }
 
