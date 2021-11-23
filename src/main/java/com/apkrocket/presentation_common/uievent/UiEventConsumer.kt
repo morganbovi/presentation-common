@@ -1,23 +1,25 @@
 package com.apkrocket.presentation_common.uievent
 
-import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.Observer
 import com.apkrocket.presentation_common.BuildConfig
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 import timber.log.Timber
 
 interface UiEventConsumer<UiEventType : UiEvent> {
     fun onUiEvent(event: UiEventType)
 
     fun consumeUiEvents(
-        lifecycleOwner: LifecycleOwner,
+        scope: CoroutineScope,
         uiEventProducer: UiEventProducer<UiEventType>
     ) {
-        uiEventProducer.uiEventFlow.observe(lifecycleOwner, Observer {
-//            logStateBreadcrumb(it)
-            if (BuildConfig.DEBUG) {
-                Timber.d(it.toString())
+        scope.launch {
+            uiEventProducer.uiEventFlow.collect { uiEvent ->
+                if (BuildConfig.DEBUG) {
+                    Timber.d(uiEvent.toString())
+                }
+                onUiEvent(uiEvent)
             }
-            this.onUiEvent(it)
-        })
+        }
     }
 }
