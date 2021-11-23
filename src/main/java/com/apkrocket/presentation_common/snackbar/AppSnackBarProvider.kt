@@ -7,7 +7,7 @@ interface AppSnackBarProvider {
     val snackBarFlow: Flow<SnackBarUiState>
 
     suspend fun showSnackBar(message: String)
-//fuck
+
     data class SnackBarUiState(
         val message: String,
         val uuid: String = UUID.randomUUID().toString()
