@@ -1,0 +1,3 @@
+package com.apkrocket.presentation_common
+
+interface UiState

@@ -1,0 +1,29 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
+
+android {
+    buildFeatures {
+        viewBinding true
+        dataBinding true
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation project(':domain')
+
+    compose.each { _, dep ->
+        api dep
+    }
+
+    api libs.koinCompose
+
+    api libs.xCore
+
+    api libs.coil
+
+    api libs.lifecycleEx
+    api libs.lifecycleRuntime
+
+}
